@@ -57,16 +57,4 @@ if submit:
     if uploaded_file is not None:
         text = input_pdf_text(uploaded_file)
         response = get_gemini_repsonse(input_prompt)
-        # # Find the start and end indices for each component
-        # jd_match_start = response.find('"JD Match":"') + len('"JD Match":"')
-        # jd_match_end = response.find('%"', jd_match_start) + len('%"')
-
-        # keywords_start = response.find(
-        #     '"MissingKeywords":["') + len('"MissingKeywords":["')
-        # keywords_end = response.find('"]', keywords_start)
-
-        # summary_start = response.find(
-        #     '"Job Description Summary":"') + len('"Job Description Summary":"')
-        # # Trim the last two characters (} and ")
-        # summary_end = len(response) - 2
         st.subheader(response)

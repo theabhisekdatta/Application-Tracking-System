@@ -66,5 +66,5 @@ if submit:
         text = input_pdf_text(uploaded_file)
         jd_matching = calculate_similarity(jd, text)
         response = get_gemini_repsonse(input_prompt)
-        st.subheader(response)
-        st.subheader(jd_matching)
+        st.write("Job Description Matching: ", f"{jd_matching:.2f}%")
+        st.write(response)

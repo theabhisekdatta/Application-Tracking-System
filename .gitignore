@@ -1,2 +1,2 @@
 .env
-pretrain_word2vec-google-news-300
+utilities/pretrained_model/pretrain_word2vec-google-news-300

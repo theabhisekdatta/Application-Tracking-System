@@ -1,22 +1,12 @@
-import gensim.downloader as api
+import pickle
 from sklearn.metrics.pairwise import cosine_similarity
 import nltk
-import os
-
 nltk.download('punkt')
 
-# Path to save the model locally
-MODEL_PATH = "word2vec-google-news-300/word2vec-google-news-300.gz"
-
-# Check if the model exists locally
-if not os.path.exists(MODEL_PATH):
-    # If the model doesn't exist, download it
-    word2vec_model = api.load('word2vec-google-news-300')
-    # Save the model locally
-    word2vec_model.save(MODEL_PATH)
-else:
-    # Load the model from the local path
-    word2vec_model = gensim.models.KeyedVectors.load(MODEL_PATH)
+# Load pre-trained Word2Vec model
+model_file_path = "pretrain_word2vec-google-news-300"
+with open(model_file_path, 'rb') as f:
+    word2vec_model = pickle.load(f)
 
 
 def preprocess_text(text):
@@ -31,14 +21,15 @@ def calculate_similarity(jd_text, resume_text, word2vec_model):
     resume_tokens = preprocess_text(resume_text)
 
     # Filter tokens to include only those present in the Word2Vec model
-    jd_tokens = [token for token in jd_tokens if token in word2vec_model.vocab]
+    jd_tokens = [
+        token for token in jd_tokens if token in word2vec_model.key_to_index]
     resume_tokens = [
-        token for token in resume_tokens if token in word2vec_model.vocab]
+        token for token in resume_tokens if token in word2vec_model.key_to_index]
 
     # Calculate the average word embeddings for job description and resume
-    jd_embedding = sum(word2vec_model[token]
+    jd_embedding = sum(word2vec_model.get_vector(token)
                        for token in jd_tokens) / len(jd_tokens)
-    resume_embedding = sum(word2vec_model[token]
+    resume_embedding = sum(word2vec_model.get_vector(token)
                            for token in resume_tokens) / len(resume_tokens)
 
     # Compute cosine similarity

@@ -1,2 +1,3 @@
 .env
-utilities/pretrained_model/pretrain_word2vec-google-news-300
+pretrain_word2vec-google-news-300
+AbhisekDatta_Resume.pdf

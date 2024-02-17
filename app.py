@@ -3,11 +3,17 @@ import google.generativeai as genai
 import os
 import PyPDF2 as pdf
 from dotenv import load_dotenv
+from text_matching import calculate_similarity
 
 load_dotenv()  # load all our environment variables
 
 
 genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+
+# # Load pre-trained Word2Vec model
+# model_file_path = "pretrain_word2vec-google-news-300"
+# with open(model_file_path, 'rb') as f:
+#     word2vec_model = pickle.load(f)
 
 
 def get_gemini_repsonse(input):
@@ -39,12 +45,14 @@ resume:{text}
 description:{jd}
 
 I want the response in one single string having the structure
-{{"JD Match":"%","MissingKeywords:[]","Job Description Summary":""}}
+{{"MissingKeywords:[]","Job Description Summary":""}}
 """
 
 # streamlit app
 st.title(":blue[Application Tracking System]")
 st.text("Check your resume")
+
+# Job Description Loading..
 jd = st.text_area("Paste the Job Description")
 
 
@@ -56,5 +64,7 @@ submit = st.button("Check your Resume")
 if submit:
     if uploaded_file is not None:
         text = input_pdf_text(uploaded_file)
+        jd_matching = calculate_similarity(jd, text)
         response = get_gemini_repsonse(input_prompt)
         st.subheader(response)
+        st.subheader(jd_matching)

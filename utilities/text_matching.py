@@ -1,12 +1,11 @@
 import pickle
 from sklearn.metrics.pairwise import cosine_similarity
 import nltk
-# nltk.download('punkt')
-from PyPDF2 import PdfReader
+nltk.download('punkt')
 
 
 # Load pre-trained Word2Vec model
-model_file_path = "pretrain_word2vec-google-news-300"
+model_file_path = "utilities/pretrain_word2vec-google-news-300"
 with open(model_file_path, 'rb') as f:
     word2vec_model = pickle.load(f)
 
@@ -42,7 +41,7 @@ def calculate_similarity(jd_text, resume_text):
     similarity = cosine_similarity([jd_embedding], [resume_embedding])[0][0]
 
     # Convert similarity to percentage
-    similarity_percentage = similarity * 100
+    similarity_percentage = round(similarity * 100, 2)
     return similarity_percentage
 
 

@@ -3,7 +3,7 @@ import google.generativeai as genai
 import os
 import PyPDF2 as pdf
 from dotenv import load_dotenv
-from text_matching import calculate_similarity
+from utilities.text_matching import calculate_similarity
 
 load_dotenv()  # load all our environment variables
 

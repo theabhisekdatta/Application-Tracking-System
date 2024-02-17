@@ -46,10 +46,11 @@ I want the response in one single string having the structure
 st.title(":blue[Application Tracking System]")
 st.text("Check your resume")
 jd = st.text_area("Paste the Job Description")
+print(jd)
 uploaded_file = st.file_uploader(
     "Upload Your Resume", type="pdf", help="Please uplaod the pdf")
 
-submit = st.button("Submit")
+submit = st.button("Check your Resume")
 
 if submit:
     if uploaded_file is not None:

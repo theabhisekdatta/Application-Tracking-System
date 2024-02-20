@@ -25,22 +25,22 @@ def find_missing_keywords(resume, jd):
     return missing_keywords
 
 
-if __name__ == "__main__":
-    # Example usage
-    # Read resume and job description from files or any source
-    reader = PdfReader('AbhisekDatta_Resume.pdf')
-    page = reader.pages[0]
+# if __name__ == "__main__":
+#     # Example usage
+#     # Read resume and job description from files or any source
+#     reader = PdfReader('AbhisekDatta_Resume.pdf')
+#     page = reader.pages[0]
 
-    # extracting text from page
-    resume_text = page.extract_text()
-    # with open("resume.txt", "r") as file:
-    #     resume_text = file.read()
+#     # extracting text from page
+#     resume_text = page.extract_text()
+#     # with open("resume.txt", "r") as file:
+#     #     resume_text = file.read()
 
-    with open("jd.txt", "r") as file:
-        jd_text = file.read()
+#     with open("jd.txt", "r") as file:
+#         jd_text = file.read()
 
-    # Find missing keywords
-    missing_keywords = find_missing_keywords(resume_text, jd_text)
+#     # Find missing keywords
+#     missing_keywords = find_missing_keywords(resume_text, jd_text)
 
-    print("Missing keywords in the resume compared to the job description:")
-    print(missing_keywords)
+#     print("Missing keywords in the resume compared to the job description:")
+#     print(missing_keywords)

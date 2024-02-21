@@ -1,15 +1,21 @@
+from collections import Counter
+import re
+
 
 def extract_keywords(text):
     # Function to extract keywords from text
     # You may need to customize this based on your requirements
     # For a simple implementation, we can split the text into words
     # and remove common stopwords (if necessary)
-    keywords = text.lower().split()  # Convert to lowercase and split by space
-    stopwords = set(['a', 'an', 'the', 'and', 'or', 'of', 'to',
-                    'in', 'for', 'on', 'with', 'technology'])  # Add more if necessary
+    text = text.lower()
+    # Removing special characters except alphanumeric and space
+    text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
+    keywords = text.split()  # Convert to lowercase and split by space
+    stopwords = set(['a', 'an', 'the', 'and', 'or', 'of', 'to', 'in', 'for', 'on', 'with', 'as', 'us', 'it', 'all', 'can', 'be', 'is', 'are', 'this', 'that', 'there', 'was', 'were', 'i', 'you', 'he', 'she', 'we', 'they', 'them', 'my', 'your', 'his',
+                    'her', 'our', 'their', 'from', 'by', 'at', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'should', 'could', 'must', 'about', 'up', 'down', 'out', 'some', 'any', 'if', 'else', 'than', 'when', 'where', 'why', 'how', 'what', 'which'])
     keywords = [word.strip(",.!?()[]")
                 for word in keywords if word not in stopwords]
-    return set(keywords)
+    return keywords
 
 
 def find_missing_keywords(resume, jd):
@@ -18,27 +24,16 @@ def find_missing_keywords(resume, jd):
     jd_keywords = extract_keywords(jd)
 
     # Find missing keywords
-    missing_keywords = jd_keywords - resume_keywords
+    missing_keywords = list(set(jd_keywords) - set(resume_keywords))
 
-    return missing_keywords
+    # Count the frequency of missing keywords
+    keyword_frequency = Counter(missing_keywords)
 
+    # Sort the keywords based on their frequency
+    sorted_keywords = sorted(
+        keyword_frequency, key=keyword_frequency.get, reverse=True)
 
-# if __name__ == "__main__":
-#     # Example usage
-#     # Read resume and job description from files or any source
-#     reader = PdfReader('AbhisekDatta_Resume.pdf')
-#     page = reader.pages[0]
+    # Return only the top 10 missing keywords
+    top_10_missing_keywords = sorted_keywords[:10]
 
-#     # extracting text from page
-#     resume_text = page.extract_text()
-#     # with open("resume.txt", "r") as file:
-#     #     resume_text = file.read()
-
-#     with open("jd.txt", "r") as file:
-#         jd_text = file.read()
-
-#     # Find missing keywords
-#     missing_keywords = find_missing_keywords(resume_text, jd_text)
-
-#     print("Missing keywords in the resume compared to the job description:")
-#     print(missing_keywords)
+    return top_10_missing_keywords

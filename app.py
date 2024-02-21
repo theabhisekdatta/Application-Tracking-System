@@ -71,6 +71,6 @@ if submit:
         summary = generate_summary(jd)
         response = get_gemini_repsonse(input_prompt)
         st.write("Job Description Matching: ", f"{jd_matching:.2f}%")
-        st.write("Job Description Summary: ", summary)
+        st.markdown(f"```\n{summary}\n```")
         st.write("Missing Keywords from the Resume: ", missing_keywords)
         # st.write(response)

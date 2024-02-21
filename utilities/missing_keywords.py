@@ -1,5 +1,3 @@
-from PyPDF2 import PdfReader
-
 
 def extract_keywords(text):
     # Function to extract keywords from text

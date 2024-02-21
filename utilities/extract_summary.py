@@ -45,11 +45,11 @@ def generate_summary(job_description, num_sentences=3):
     return summary
 
 
-# Example job description
-# job_description =
-with open("jd.txt", "r") as file:
-    job_description = file.read()
+# # Example job description
+# # job_description =
+# with open("jd.txt", "r") as file:
+#     job_description = file.read()
 
-# Generate summary
-summary = generate_summary(job_description)
-print(summary)
+# # Generate summary
+# summary = generate_summary(job_description)
+# print(summary)

@@ -8,7 +8,7 @@ def extract_keywords(text):
     # and remove common stopwords (if necessary)
     keywords = text.lower().split()  # Convert to lowercase and split by space
     stopwords = set(['a', 'an', 'the', 'and', 'or', 'of', 'to',
-                    'in', 'for', 'on', 'with'])  # Add more if necessary
+                    'in', 'for', 'on', 'with', 'technology'])  # Add more if necessary
     keywords = [word.strip(",.!?()[]")
                 for word in keywords if word not in stopwords]
     return set(keywords)

@@ -5,6 +5,7 @@ import PyPDF2 as pdf
 from dotenv import load_dotenv
 from utilities.text_matching import calculate_similarity
 from utilities.missing_keywords import find_missing_keywords
+from utilities.extract_summary import generate_summary
 
 load_dotenv()  # load all our environment variables
 
@@ -67,7 +68,9 @@ if submit:
         text = input_pdf_text(uploaded_file)
         jd_matching = calculate_similarity(jd, text)
         missing_keywords = find_missing_keywords(text, jd)
+        summary = generate_summary(jd)
         response = get_gemini_repsonse(input_prompt)
         st.write("Job Description Matching: ", f"{jd_matching:.2f}%")
+        st.write("Job Description Summary: ", summary)
         st.write("Missing Keywords from the Resume: ", missing_keywords)
         # st.write(response)

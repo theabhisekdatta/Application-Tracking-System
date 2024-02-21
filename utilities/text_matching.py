@@ -1,6 +1,7 @@
 import pickle
 from sklearn.metrics.pairwise import cosine_similarity
 import nltk
+# from gensim.models import Word2Vec
 nltk.download('punkt')
 
 
@@ -43,6 +44,21 @@ def calculate_similarity(jd_text, resume_text):
     # Convert similarity to percentage
     similarity_percentage = round(similarity * 100, 2)
     return similarity_percentage
+
+
+# def find_missing_keywords(resume, jd):
+#     # Preprocess resume and job description
+#     resume_words = preprocess_text(resume)
+#     jd_words = preprocess_text(jd)
+
+#     # Train Word2Vec model
+#     model = Word2Vec([resume_words, jd_words], min_count=1)
+
+#     # Find missing keywords from JD
+#     missing_keywords = [
+#         word for word in jd_words if word not in resume_words and word in model.wv.key_to_index]
+
+#     return missing_keywords
 
 
 # if __name__ == "__main__":

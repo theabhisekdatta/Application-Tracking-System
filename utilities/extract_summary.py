@@ -43,13 +43,3 @@ def generate_summary(job_description, num_sentences=3):
         num_sentences, sentence_scores, key=sentence_scores.get)
     summary = ' '.join(summary_sentences)
     return summary
-
-
-# # Example job description
-# # job_description =
-# with open("jd.txt", "r") as file:
-#     job_description = file.read()
-
-# # Generate summary
-# summary = generate_summary(job_description)
-# print(summary)

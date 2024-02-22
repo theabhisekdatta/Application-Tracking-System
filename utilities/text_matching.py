@@ -2,7 +2,7 @@ import pickle
 from sklearn.metrics.pairwise import cosine_similarity
 import nltk
 import re
-# from gensim.models import Word2Vec
+from nltk.stem import PorterStemmer
 nltk.download('punkt')
 
 
@@ -17,6 +17,7 @@ def preprocess_text(text):
     tokens = nltk.word_tokenize(text.lower())
     # Removing special characters except alphanumeric and space
     cleaned_text = [re.sub(r'[^a-zA-Z0-9\s]', '', token) for token in tokens]
+    # Stopwords define
     stopwords = set(['a', 'about', 'above', 'after', 'again', 'against', 'ain', 'all', 'am', 'an', 'and', 'any', 'are', 'aren', "aren't",
                      'as', 'at', 'be', 'because', 'been', 'before', 'being', 'below', 'between', 'both', 'but', 'by', 'can', 'couldn',
                      "couldn't", 'd', 'did', 'didn', "didn't", 'do', 'does', 'doesn', "doesn't", 'doing', 'don', "don't", 'down', 'during',
@@ -33,9 +34,12 @@ def preprocess_text(text):
                      'her', 'our', 'their', 'from', 'by', 'at', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'should', 'could',
                      'must', 'about', 'up', 'down', 'out', 'some', 'any', 'if', 'else', 'than', 'when', 'where', 'why', 'how', 'what', 'which'
                      ])
-    preprocessed_test = [word.strip(",.!?()[]")
-                         for word in cleaned_text if word not in stopwords]
-    return preprocessed_test
+    # Initialize Porter Stemmer
+    porter = PorterStemmer()
+    # Stem each word in the cleaned_text list
+    stemmed_text = [porter.stem(word)
+                    for word in cleaned_text if word not in stopwords]
+    return stemmed_text
 
 
 def calculate_similarity(jd_text, resume_text):
@@ -65,32 +69,3 @@ def calculate_similarity(jd_text, resume_text):
     # Convert similarity to percentage
     similarity_percentage = round(similarity * 100, 2)
     return similarity_percentage
-
-
-# def find_missing_keywords(resume, jd):
-#     # Preprocess resume and job description
-#     resume_words = preprocess_text(resume)
-#     jd_words = preprocess_text(jd)
-
-#     # Train Word2Vec model
-#     model = Word2Vec([resume_words, jd_words], min_count=1)
-
-#     # Find missing keywords from JD
-#     missing_keywords = [
-#         word for word in jd_words if word not in resume_words and word in model.wv.key_to_index]
-
-#     return missing_keywords
-
-
-# if __name__ == "__main__":
-#     # Sample job description and resume text
-#     resume_pdf = PdfReader('AbhisekDatta_Resume.pdf')
-#     page = resume_pdf.pages[0]
-#     resume_text = page.extract_text()
-#     jd_text = "machine learning, python, Gen AI , Linear regression"
-#     # resume_text = "Your resume text goes here..."
-
-#     # Calculate similarity percentage
-#     similarity_percentage = calculate_similarity(
-#         jd_text, resume_text)
-#     print(f"Similarity Percentage: {similarity_percentage:.2f}%")

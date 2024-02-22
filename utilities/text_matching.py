@@ -1,6 +1,7 @@
 import pickle
 from sklearn.metrics.pairwise import cosine_similarity
 import nltk
+import re
 # from gensim.models import Word2Vec
 nltk.download('punkt')
 
@@ -14,7 +15,27 @@ with open(model_file_path, 'rb') as f:
 def preprocess_text(text):
     # Tokenize the text
     tokens = nltk.word_tokenize(text.lower())
-    return tokens
+    # Removing special characters except alphanumeric and space
+    cleaned_text = [re.sub(r'[^a-zA-Z0-9\s]', '', token) for token in tokens]
+    stopwords = set(['a', 'about', 'above', 'after', 'again', 'against', 'ain', 'all', 'am', 'an', 'and', 'any', 'are', 'aren', "aren't",
+                     'as', 'at', 'be', 'because', 'been', 'before', 'being', 'below', 'between', 'both', 'but', 'by', 'can', 'couldn',
+                     "couldn't", 'd', 'did', 'didn', "didn't", 'do', 'does', 'doesn', "doesn't", 'doing', 'don', "don't", 'down', 'during',
+                     'each', 'few', 'for', 'from', 'further', 'had', 'hadn', "hadn't", 'has', 'hasn', "hasn't", 'have', 'haven', "haven't",
+                     'having', 'he', 'her', 'here', 'hers', 'herself', 'him', 'himself', 'his', 'how', 'i', 'if', 'in', 'into', 'is', 'isn',
+                     "isn't", 'it', "it's", 'its', 'itself', 'just', 'll', 'm', 'ma', 'me', 'mightn', "mightn't", 'more', 'most', 'mustn',
+                     "mustn't", 'my', 'myself', 'needn', "needn't", 'no', 'nor', 'not', 'now', 'o', 'of', 'off', 'on', 'once', 'only', 'or',
+                     'other', 'our', 'ours', 'ourselves', 'out', 'over', 'own', 're', 's', 'same', 'shan', "shan't", 'she', "she's", 'should',
+                     "should've", 'shouldn', "shouldn't", 'so', 'some', 'such', 't', 'than', 'that', "that'll", 'the', 'their', 'theirs', 'them',
+                     'themselves', 'then', 'there', 'these', 'they', 'this', 'those', 'through', 'to', 'too', 'under', 'until', 'up', 've', 'very',
+                     'was', 'wasn', "wasn't", 'we', 'were', 'weren', "weren't", 'what', 'when', 'where', 'which', 'while', 'who', 'whom', 'why',
+                     'will', 'with', 'won', "won't", 'wouldn', "wouldn't", 'y', 'you', "you'd", "you'll", "you're", "you've", 'your', 'yours',
+                     'yourself', 'yourselves', 'could', 'he', 'i', 'us', 'you', 'he', 'she', 'we', 'they', 'them', 'my', 'your', 'his',
+                     'her', 'our', 'their', 'from', 'by', 'at', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'should', 'could',
+                     'must', 'about', 'up', 'down', 'out', 'some', 'any', 'if', 'else', 'than', 'when', 'where', 'why', 'how', 'what', 'which'
+                     ])
+    preprocessed_test = [word.strip(",.!?()[]")
+                         for word in cleaned_text if word not in stopwords]
+    return preprocessed_test
 
 
 def calculate_similarity(jd_text, resume_text):

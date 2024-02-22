@@ -1,7 +1,7 @@
 import streamlit as st
 import PyPDF2 as pdf
 from utilities.text_matching import calculate_similarity
-from utilities.missing_keywords import find_missing_keywords
+# from utilities.missing_keywords import find_missing_keywords
 from utilities.extract_summary import generate_summary
 
 
@@ -16,7 +16,7 @@ def input_pdf_text(uploaded_file):
 
 # streamlit app
 st.title(":blue[Application Tracking System]")
-st.text("Check your resume")
+
 
 # Job Description Loading..
 jd = st.text_area("Paste the Job Description")
@@ -31,7 +31,7 @@ if submit:
     if uploaded_file is not None:
         text = input_pdf_text(uploaded_file)
         jd_matching = calculate_similarity(jd, text)
-        missing_keywords = find_missing_keywords(text, jd)
+        # missing_keywords = find_missing_keywords(text, jd)
         summary = generate_summary(jd)
         st.write("Job Description Matching: ", f"{jd_matching:.2f}%")
         st.text_area("Summary", value=summary, height=200)
